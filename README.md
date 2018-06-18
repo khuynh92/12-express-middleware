@@ -1,7 +1,7 @@
 
 [![Build Status](https://travis-ci.com/khuynh92/12-express-middleware.svg?branch=master)](https://travis-ci.com/khuynh92/12-express-middleware)
 
-## 11-express
+## 12-express-middleware
 
   Travis: https://travis-ci.com/khuynh92/12-express-middleware  
   Heroku: https://khoa-12-express-middleware.herokuapp.com  
