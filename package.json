@@ -28,6 +28,7 @@
     "babel": "^6.23.0",
     "babel-env": "^2.4.1",
     "babel-eslint": "^8.2.3",
+    "babel-register": "^6.26.0",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "eslint": "^4.19.1",
@@ -35,6 +36,7 @@
     "morgan": "^1.9.0",
     "register": "0.0.0",
     "require-dir": "^1.0.0",
+    "require-directory": "^2.1.1",
     "superagent": "^3.8.3",
     "uuid": "^3.2.1"
   }
