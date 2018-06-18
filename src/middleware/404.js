@@ -1,9 +1,7 @@
 'use strict';
 
-export default (req, res, next) => {
-  console.log('Route not found');
+export default (req, res) => {
   res.status(404);
-  res.send('404 ERROR: route not found');
-  // next();
+  res.write('404 ERROR: route not found');
   res.end();
 };

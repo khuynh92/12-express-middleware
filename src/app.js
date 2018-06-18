@@ -2,18 +2,17 @@
 
 import express from 'express';
 import morgan from 'morgan';
-import cors from 'cors';
 
 import errorHandler from './middleware/error.js';
 import notFound from './middleware/404.js';
 
+import cors from './middleware/cors.js';
+
+import noBody from './middleware/400.js';
+
 let app = express();
 
-let corsOrigins = {
-  origin: '*',
-};
-
-app.use(cors(corsOrigins));
+app.use(cors);
 
 app.use(morgan('dev'));
 
@@ -24,9 +23,13 @@ import router from './api/api.js';
 
 app.use(router);
 
+app.use(noBody);
+
 app.use(notFound);
 
 app.use(errorHandler);
+
+
 
 let isRunning = false;
 

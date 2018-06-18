@@ -1,8 +1,10 @@
 'use strict';
 
-export default (err, req, res, next) => {
-  console.log('error occured');
-  res.status(500);
-  res.send('Some error occured');
+export default  (err,req,res,next) => {
+  let error = { error:err };
+  res.statusCode = 500;
+  res.statusMessage = 'Server Error';
+  res.setHeader('Content-Type', 'application/json');
+  res.write(JSON.stringify(error));
   next();
 };

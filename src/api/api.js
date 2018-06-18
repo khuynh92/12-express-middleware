@@ -21,10 +21,11 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/api/v1/:model', (req,res,next) => {
+router.get('/api/v1/:model', (req, res, next) => {
+  console.log(req.model);
   req.model.findAll()
     .then(data => sendJSON(res, data))
-    // .catch(next);
+    .catch(next);
 });
 
 router.get('/api/v1/:model/:id', (req, res, next) => {
@@ -35,10 +36,7 @@ router.get('/api/v1/:model/:id', (req, res, next) => {
 
 router.post('/api/v1/:model', (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
-    res.statusCode = 400;
-    res.statusMessage = 'Bad Request';
-    res.write('Bad Request');
-    res.end();
+    next('no body');
   } else {
     let newModel = new req.model(req.body);
 
@@ -48,30 +46,20 @@ router.post('/api/v1/:model', (req, res, next) => {
   }
 });
 
-router.delete('/api/v1/pizza/:id', (req, res, next) => {
-  if (req.params.id) {
-    req.model.deleteOne(req.params.id)
-      .then(() => {
-        res.statusCode = 204;
-        res.statusMessage = 'OK';
-        res.end();
-      })
-      .catch(next);
-  } else {
-    res.statusCode = 404;
-    res.statusMessage = 'OK';
-    res.write(`Not found`);
-    res.end();
-  }
+router.delete('/api/v1/:model/:id', (req, res, next) => {
+  req.model.deleteOne(req.params.id)
+    .then(() => {
+      res.statusCode = 204;
+      res.statusMessage = 'OK';
+      res.end();
+    })
+    .catch(next);
 });
 
 router.put('/api/v1/:model/:id', (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
-    res.statusCode = 400;
-    res.statusMessage = 'Bad Request';
-    res.write('Bad Request');
-    res.end();
-  } 
+    next('no body');
+  }
   else {
     req.model.updateOne(req.params.id, req.body)
       .then(data => sendJSON(res, data))
@@ -81,11 +69,8 @@ router.put('/api/v1/:model/:id', (req, res, next) => {
 
 router.patch('/api/v1/:model/:id', (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
-    res.statusCode = 400;
-    res.statusMessage = 'Bad Request';
-    res.write('Bad Request');
-    res.end();
-  } 
+    next('no body');
+  }
   else {
     req.model.patchOne(req.params.id, req.body)
       .then(data => sendJSON(res, data))
