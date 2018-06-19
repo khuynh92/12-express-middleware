@@ -6,17 +6,17 @@ import app from '../../../src/app.js';
 
 describe('app module', () => {
 
-  beforeAll( () => {
+  beforeAll(() => {
     app.start(3005);
   });
 
-  afterAll( () => {
+  afterAll(() => {
     app.stop();
   });
 
 
   it('should return 200 for homepage', () => {
-    
+
     return superagent.get('http://localhost:3005')
       .then(response => {
         expect(response.statusCode).toBe(200);
@@ -35,7 +35,7 @@ describe('app module', () => {
 
   it('should return an object for get at api/v1/pizza/pineapples', () => {
 
-    let obj = {pineapples:'do not belong on pizza', id:'pineapples'};
+    let obj = { pineapples: 'do not belong on pizza', id: 'pineapples' };
     return superagent.post('http://localhost:3005/api/v1/pizza')
       .send(obj)
       .then(() => {
@@ -50,7 +50,7 @@ describe('app module', () => {
 
 
   it('handles a good post request', () => {
-    let obj = {pineapples:'do not belong on pizza'};
+    let obj = { pineapples: 'do not belong on pizza' };
     return superagent.post('http://localhost:3005/api/v1/pizza')
       .send(obj)
       .then(response => {
@@ -70,7 +70,7 @@ describe('app module', () => {
   });
 
   it('should handle good delete request', () => {
-    let obj = {pineapples:'do not belong on pizza', id:'pineapples'};
+    let obj = { pineapples: 'do not belong on pizza', id: 'pineapples' };
     return superagent.post('http://localhost:3005/api/v1/pizza')
       .send(obj)
       .then(() => {
@@ -78,9 +78,9 @@ describe('app module', () => {
           .then(response => {
             expect(response.statusCode).toBe(204);
           });
-      });  
+      });
   });
-  
+
   it('should handle a bad delete request', () => {
     return superagent.delete('http://localhost:3005/api/v1/pizza/calzones')
       // .then(response => false)
@@ -88,4 +88,22 @@ describe('app module', () => {
         expect(err.response.text).toEqual('404 ERROR: route not found');
       });
   });
+
+  it('handles a good post request', () => {
+    let obj = { pineapples: 'do not belong on pizza' };
+    let obj2 = { pineapples: 'do belong on pizza' };
+    return superagent.post('http://localhost:3005/api/v1/pizza')
+      .send(obj)
+      .then(() => {
+        return superagent.post('http://localhost:3005/api/v1/pizza')
+          .send(obj2)
+          .then(response => {
+            expect(response.statusCode).toBe(200);
+            expect(response.text).toEqual(expect.stringContaining('{"pineapples":"do belong on pizza"'));
+          })
+          .catch(console.err);
+      })
+      .catch(console.err);
+  });
+
 });
